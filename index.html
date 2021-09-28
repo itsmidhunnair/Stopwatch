@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">    
+    <title>StopWatch</title>
+    <style>
+        body, .jumbotron
+        {
+            padding: 30px;
+            width: auto;
+        }
+        .timer
+        {
+            font-size: 120px;
+        }
+    </style>
+</head>
+<body>
+   <div class="jumbotron text-center">
+       <h1>StopWatch</h1>
+       <!--Timer-->
+       <div class="timer">
+            <span class="minutes">00</span> : <span class="seconds">00</span>
+        </div>
+
+        <!--Timer Buttons-->
+        <div class="timer-buttons">
+            <buttons class="btn btn-lg btn-success" data-action="start">
+                Start
+            </buttons>
+            <buttons class="btn btn-lg btn-danger" data-action="stop">
+                Stop 
+            </buttons>
+            <button class="btn btn-link btn-block" data-action="reset">
+                Reset
+            </button>
+        </div>
+   </div>
+   <div class="text-center">Made by
+    <a href="http://midhunnair.ml">Midhun Nair</a>
+    </div>
+<!----------------Javascript---------------------->
+    <script>
+        //grab all the things we need
+        const startButton = document.querySelector('[data-action="start"]');
+        const stopButton = document.querySelector('[data-action="stop"]');
+        const resetButton = document.querySelector('[data-action="reset"]');
+        const minutes = document.querySelector('.minutes')
+        const seconds = document.querySelector('.seconds')
+        let timerTime = 00;
+        let isRunning = false;
+        let interval;
+
+        
+
+        //making functions
+        function startTimer()
+        {
+            if (isRunning) return;
+            isRunning = true;
+            interval = setInterval(incrementTimer, 1000);
+        };
+    
+        function stopTimer()
+        {
+            if (!isRunning) return;
+            isRunning = false;
+            clearInterval(interval);
+        };
+
+        function resetTimer()
+        {
+                stopTimer();
+                timerTime = 0;
+                minutes.innerText = '00';
+                seconds.innerText = '00';
+        };
+        
+        function incrementTimer()
+        {
+            const numberOfMinutes = Math.floor(timerTime / 60);
+            minutes.innerText = pad(numberOfMinutes);
+
+            const numberOfSeconds = timerTime % 60;
+
+            timerTime++;
+            seconds.innerText = pad(numberOfSeconds);
+        };
+
+        //for adding 0 for numbers less than 10
+    /*    function pad(number)
+        {
+            if (number < 10)
+            {
+                return '0' + number;
+            }
+
+            else
+            {
+                return number;
+            }
+        }
+    */    
+
+    //both are same but the below one is small because of TURNARY OPERATOR
+
+        function pad(number)
+        {
+            return(number < 10) ? '0' + number : number; //one liner if statement
+        }    
+
+        //adding event listener
+        startButton.addEventListener('click',startTimer);
+        stopButton.addEventListener('click',stopTimer);
+        resetButton.addEventListener('click',resetTimer);
+    </script>
+</body>
+</html>
